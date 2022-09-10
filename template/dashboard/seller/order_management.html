@@ -1,0 +1,139 @@
+{% extends 'dashboard/base.html' %} 
+
+{% block main %}
+<main class="main users chart-page" id="skip-target">
+    <div class="container">
+        <h2 class="main-title">Order Management</h2>
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="users-table table-wrapper">
+                    <table class="posts-table">
+                        <thead>
+                            <tr class="users-table-info">
+                                <th>Delivery To</th> 
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Mark as delivered</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in orders %}
+                            <tr>
+                                <td>{{i.user.username}}</td>
+                                <td>{{i.item.name}}</td>
+                                <td>{{i.quantity}}</td>
+                                <td>{{i.total_price}}</td>
+                                {% if i.status == "Pending" %}
+                                <td><span class="badge-pending">Pending</span></td>
+                                {% else %}
+                                <td><span class="badge-active">Delivered</span></td>
+                                {% endif %}
+                                <td><a href="{% url 'order_delivered' i.id %}"><i class="fas fa-check-circle"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--Modal-->
+
+<div class="modal fade" id="newUtemModal" tabindex="-1" aria-labelledby="newUtemModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newUtemModalLabel">New Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form class="sign-up-form form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="retaurant" value="{{rid}}">
+                    <label class="form-label-wrapper">
+                        <p class="form-label">Item Name</p>
+                        <input class="form-input" type="text" placeholder="Enter item name" name="name" required>
+                    </label>
+                    <label class="form-label-wrapper">
+                        <p class="form-label">Price</p>
+                        <input class="form-input" type="number" placeholder="Enter price" name="price" required>
+                    </label>
+                    <label class="form-label-wrapper">
+                        <p class="form-label">Category</p>
+                        <select class="form-select" name="category">
+                            <option selected value="Itialian">Italian</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Arab">Arab</option>
+                            <option value="Fast Food">Fast Food</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Kebab & Grill">Kebab & Grill</option>
+                            <option value="Mexican">Mexican</option>
+                        </select>
+                    </label>
+                    <label class="form-label-wrapper">
+                        <p class="form-label">Food Image</p>
+                        <input class="form-input" type="file" placeholder="Enter price" name="image" required>
+                    </label>
+                    <button type="submit" name="cretate" class="form-btn primary-default-btn transparent-btn">Add</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button  type="button" class="btn text-white" style="background-color:#f15f2a;" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MOdal 2 -->
+<div class="modal fade" id="updateIteamModal" tabindex="-1" aria-labelledby="updateIteamModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateIteamModalLabel">Update</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <div class="modal-body">
+            <form class="sign-up-form form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="i_id" name="retaurant" value="">
+                <input type="hidden" id="i_menu_id" name="menuID" value="">
+              <label class="form-label-wrapper">
+                <p class="form-label">Item Name</p>
+                <input id="id_name" class="form-input" type="text" placeholder="Enter item name" name="name" required>
+              </label>
+              <label class="form-label-wrapper">
+                <p class="form-label">Price</p>
+                <input id="id_price" class="form-input" type="number" placeholder="Enter price" name="price" required>
+              </label>
+              <label class="form-label-wrapper">
+                <p class="form-label">Category</p>
+                <select id="select_iteams" class="form-select" name="category">
+                    <option id="Itialian" value="Itialian">Itialian</option>
+                    <option id="Indian" value="Indian">Indian</option>
+                    <option id="Arab" value="Arab">Arab</option>
+                </select>
+              </label>
+              <label class="form-label-wrapper">
+                <p class="form-label">Availability</p>
+                <select id="select_iteams" class="form-select" name="is_available">
+                    <option id="Available" value="True">Available</option>
+                    <option id="Unavailable" value="False">Unavailable</option>
+                </select>
+              </label>
+              <button type="submit" name="update" class="form-btn primary-default-btn transparent-btn">Update</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn text-white" style="background-color:#f15f2a;" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+{% endblock main %}

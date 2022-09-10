@@ -1,0 +1,135 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="page-container">
+    <div data-bottom-top="background-position: 50% 50px;" data-center="background-position: 50% 0px;"
+        data-top-bottom="background-position: 50% -50px;" class="page-title page-product">
+        <div class="container">
+            <div class="title-wrapper">
+                <div data-top="transform: translateY(0px);opacity:1;" data--20-top="transform: translateY(-5px);"
+                    data--50-top="transform: translateY(-15px);opacity:0.8;"
+                    data--120-top="transform: translateY(-30px);opacity:0;" data-anchor-target=".page-title"
+                    class="title">Product Cart</div>
+                <div data-top="opacity:1;" data--120-top="opacity:0;" data-anchor-target=".page-title" class="divider">
+                    <span class="line-before"></span><span class="dot"></span><span class="line-after"></span></div>
+                <div data-top="transform: translateY(0px);opacity:1;" data--20-top="transform: translateY(5px);"
+                    data--50-top="transform: translateY(15px);opacity:0.8;"
+                    data--120-top="transform: translateY(30px);opacity:0;" data-anchor-target=".page-title"
+                    class="subtitle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content-wrapper">
+        <div class="container">
+            <section class="padding-top-100 padding-bottom-100">
+                
+                    <table id="cart__table" class="shop_table shop_table_responsive">
+                        <thead>
+                            <tr>
+                                <th class="product-remove"> </th>
+                                <th class="product-thumbnail">Image</th>
+                                <th class="product-name">Seller</th>
+                                <th class="product-name">Product</th>
+                                <th class="product-price">Price</th>
+                                <th class="product-quantity">Quantity</th>
+                                <th class="product-subtotal">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in items %}
+                            <tr class="cart_item">
+                                <td class="product-remove"><a href="{% url 'deleteCartItem' i.id %}" aria-label="Remove this item"
+                                        data-product_id="1061" data-product_sku="" class="remove">×</a><span style="display: none;">{{i.id}}</span></td>
+                                <td class="product-thumbnail"><a href=""><img width="150" height="100"
+                                            src="{{i.item.image.url}}" alt=""
+                                            class="img-responsive"></a></td>
+                                <td data-title="Product" class="product-name"><a href="{% url 'menuPage' i.restaurant.id %}">{{i.restaurant.name}}</a>
+                                </td>
+                                <td data-title="Product" class="product-name">{{i.item.name}}
+                                </td>
+                                <td data-title="Price" class="product-price">
+                                    <span class="product-Price-amount amount" id="price_{{i.item.id}}">
+                                        <span class="product-Price-currencySymbol">৳</span>{{i.item.price}}</span>
+                                </td>
+                                <td data-title="Quantity" class="product-quantity">
+                                    <div class="quantity">
+                                        <input type="number" step="1" min="1" max="" id="input_id_{{i.item.id}}"
+                                            name="cart[a89cf525e1d9f04d16ce31165e139a4b][qty]" value="{{i.quantity}}" title="Qty"
+                                            size="4" pattern="[0-9]*" inputmode="numeric"
+                                            class="form-control input-qty" onchange="changeInput(`{{i.item.id}}`)">
+                                    </div>
+                                </td>
+                                <td data-title="Total" class="product-subtotal"><span id="total_price_{{i.item.id}}"
+                                        class="product-Price-amount amount"><span
+                                            class="product-Price-currencySymbol">৳</span>{{i.total_price}}</span></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if items %}
+                    <div class="actions" style="float: right;">
+                        <input type="button" name="order_now" value="Order Now"
+                            class="swin-btn f-right" onclick="sendData()">
+                    </div>
+                    {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
+<a id="totop" href="#" class="animated"><i class="fa fa-angle-double-up"></i></a>
+</div>
+
+
+{% endblock main %}
+
+
+{% block custimPaseJs %}
+<script>
+        function changeInput(id){
+            var sprice =  document.getElementById(`price_${id}`).textContent.trim().substring(1)*1;
+            var tprice = document.getElementById(`total_price_${id}`);
+            var q = document.getElementById(`input_id_${id}`).value*1;
+            tprice.textContent = '৳'+q*sprice;
+        }
+        
+        
+        function sendData(){
+            let  data = [];
+            var table = $("table tbody");
+            
+            rid = `{{rid}}`
+            table.find('tr').each(function (i) {
+                
+                    var $tds = $(this).find('td');
+                    productId = $tds.eq(0).text().substring(1);
+                    // Quantity = $tds.eq(5).text();
+                    price = $tds.eq(6).text().substring(1);
+                    
+                    let obj = {rid, productId,  price};
+                    data.push(obj);
+            });
+            // console.log(data);
+            $.ajax({
+                method: 'POST',
+                url: "{% url 'compliteOrder' %}",
+                
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                data: {
+                    senddata: JSON.stringify(data),
+                },
+                success: function() {
+                    // console.log('Success!');
+                    window.location.href = "/restaurants/";
+                },
+                error: function() {
+                    console.log('Error...');
+                },
+            });
+        }
+       
+</script>
+
+{% endblock custimPaseJs %}

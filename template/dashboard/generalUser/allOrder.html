@@ -1,0 +1,102 @@
+{% extends 'dashboard/base.html' %} {% block main %}
+<main class="main users chart-page" id="skip-target">
+    <div class="container">
+        <h2 class="main-title">{% if request.user.userdetail.is_admin %}All Orders {% else %} My Orders {% endif %}</h2>
+        <div class="row stat-cards">
+            <div class="col-md-6 col-xl-3">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon primary">
+                        <i data-feather="bar-chart-2" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num">{{all_count}}</p>
+                        <p class="stat-cards-info__title">Total Orders</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon warning">
+                        <i data-feather="file" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num">{{pending_count}}</p>
+                        <p class="stat-cards-info__title">Pending orders</p>
+                    </div>
+                </article>
+            </div>
+            <div class="col-md-6 col-xl-3">
+                <article class="stat-cards-item">
+                    <div class="stat-cards-icon purple">
+                        <i data-feather="file" aria-hidden="true"></i>
+                    </div>
+                    <div class="stat-cards-info">
+                        <p class="stat-cards-info__num">{{delivered_count}}</p>
+                        <p class="stat-cards-info__title">Completed orders</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="users-table table-wrapper">
+                    <table class="posts-table">
+                        <thead>
+                            <tr class="users-table-info">
+                                <th>Order ID</th>
+                                {% if request.user.userdetail.is_admin %}
+                                <th>Ordered By</th>
+                                {% endif %}
+                                <th>Ordered From</th>
+                                <th>Seller Category</th>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                                <th>Review</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in orders %}
+                            <tr>
+                                <td>{{i.id}}</td>
+                                {% if request.user.userdetail.is_admin %}
+                                    <td>{{i.user.username}}</td>
+                                {% endif %}
+                                <td>
+                                    {{i.restaurant.name}}
+                                </td>
+                                <td>
+                                    {{i.restaurant.type}}
+                                </td>
+                                <td>
+                                    {{i.item.name}}
+                                </td>
+                                <td>{{i.quantity}}</td>
+                                <td>{{i.total_price}}</td>
+                                {% if i.status == "Pending" %}
+                                <td><span class="badge-pending">Pending</span></td>
+                                {% else %}
+                                <td><span class="badge-active">Delivered</span></td>
+                                {% endif %}
+                                <td>
+                                    
+                                     {% if i.status == "Pending" or i.is_reviewed or i.total_price < 200 or i.user.username != request.user.username %} 
+                                        <button disabled class="btn btn-outline-success rounded-0 p-1"><i class="fas fa-file-alt"></i></button> 
+                                        {% else %} 
+                                            <a href="{% url 'user_give_review' i.item.id %}" class="btn btn-outline-success rounded-0 p-1"><i class="fas fa-file-alt"></i></a>
+                                        {% endif %} 
+                                        
+                                    
+                                </td>
+                            </tr>
+                            {% endfor %}
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock main %}

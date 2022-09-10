@@ -1,0 +1,71 @@
+{% extends './base.html' %} {% load static %} {% block main %}
+<div class="page-container">
+    <div data-bottom-top="background-position: 50% 50px;" data-center="background-position: 50% 0px;"
+        data-top-bottom="background-position: 50% -50px;" class="page-title page-blog">
+        <div class="container">
+            <div class="title-wrapper">
+                <div data-top="transform: translateY(0px);opacity:1;"
+                    data--120-top="transform: translateY(-30px);opacity:0;" data-anchor-target=".page-title"
+                    class="title">
+                    Reviews
+                </div>
+                <div data-top="opacity:1;" data--120-top="opacity:0;" data-anchor-target=".page-title" class="divider">
+                    <span class="line-before"></span><span class="dot"></span><span class="line-after"></span>
+                </div>
+                <div data-top="transform: translateY(0px);opacity:1;" data--20-top="transform: translateY(5px);"
+                    data--50-top="transform: translateY(15px);opacity:0.8;"
+                    data--120-top="transform: translateY(30px);opacity:0;" data-anchor-target=".page-title"
+                    class="subtitle">
+                    All Reviews and stories from our customar will help you have a best
+                    meal for your day
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-content-wrapper">
+        <section class="padding-top-100 padding-bottom-100">
+            <div class="container">
+                <div class="blog-wrapper swin-sc-blog-list">
+                    <div class="swin-sc-blog-slider style-02">
+                        <div class="main-slider">
+                            <div class="slides">
+                                {% for i in revs %}
+                                    <div class="blog-item swin-transition">
+                                        
+                                        <div class="blog-content">
+                                        <!--review container-->
+                                            <div class="blog-comment">
+                                                <div class="comment-heading swin-sc swin-sc-title style-2 text-left">
+                                                    <p class="title">Review for {{i.restaurant.name}} - {{i.item.name}}<span></span></p>
+                                                </div>
+                                                <div class="comment-area">
+                                                    <div class="comment-list media-list list-unstyledl">
+                                                        {% comment %} loop {% endcomment %}
+                                                        <div class="comment-item media">
+                                                            
+                                                            <div class="media-body">
+                                                                <p class="author-comment-name media-heading">
+                                                                   {{i.user.username}}
+                                                                </p>
+                                                                <p>
+                                                                    {{i.review}}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--review loop-->
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock main %}

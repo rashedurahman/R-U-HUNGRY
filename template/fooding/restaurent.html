@@ -1,0 +1,83 @@
+{% extends './base.html' %}
+{% load static %}
+{% block main %}
+<div class="page-container">
+    <div class="page-content-wrapper">
+        <div class="page-content no-padding">
+            <section class="product-sesction-02 padding-top-120 padding-bottom-100">
+                <div class="container">
+                    <div class="swin-sc swin-sc-title">
+                        <p class="top-title"><span>Popular Restaurants</span></p>
+                        <h3 class="title">Tasty And Good Price</h3>
+                    </div>
+                    <div class="swin-sc swin-sc-product products-02">
+                        <div class="products nav-slider">
+                            <div class="row">
+                                {% for i in restaurants %}
+                                    {% if i.user.userdetail.is_seller %}
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <a href="{% url 'menuPage' i.id %}">
+                                                    <div class="blog-item item swin-transition">
+                                                        <div class="block-img"><img
+                                                                src="{{i.image.url}}" alt="Restaurant Image"
+                                                                class="img img-responsive">
+                                                        </div>
+                                                        <div class="block-content">
+                                                            <h5 class="title"><a href="{% url 'menuPage' i.id %}">{{i.name}}</a></h5>
+                                                            <div class="product-info">
+                                                                <ul class="list-inline">
+                                                                    <li class="author"><span>Check {{i.name}}'s</span><span class="text">Menu</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="padding-top-120 padding-bottom-100">
+                <div class="container">
+                    <div class="swin-sc swin-sc-title">
+                        <p class="top-title"><span>Poular Homechefs</span></p>
+                        <h3 class="title">Freshly Made in Home</h3>
+                    </div>
+                    <div class="swin-sc swin-sc-product products-02">
+                        <div class="products nav-slider">
+                            <div class="row">
+                                {% for i in homechefs %}
+                                    {% if i.user.userdetail.is_seller %}
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <a href="{% url 'menuPage' i.id %}">
+                                                <div class="blog-item item swin-transition">
+                                                    <div class="block-img"><img
+                                                            src="{{i.image.url}}" alt="Restaurant Image"
+                                                            class="img img-responsive">
+                                                    </div>
+                                                    <div class="block-content">
+                                                        <h5 class="title"><a href="{% url 'menuPage' i.id %}">{{i.name}}</a></h5>
+                                                        <div class="product-info">
+                                                            <ul class="list-inline">
+                                                                <li class="author"><span>Check {{i.name}}'s</span><span class="text">Menu</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock main %}

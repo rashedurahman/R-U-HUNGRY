@@ -1,0 +1,137 @@
+{% extends './base.html' %}
+{% load static %}
+{% block main %}
+<div class="page-container">
+    <div class="top-header top-slider layout-shop">
+        <div class="slides">
+            <div class="slide-content slide-layout-01">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="swin-sc swin-sc-title text-left">
+                                <h3 data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="500"
+                                    class="title animated fadeInUp">Deliciousness jumping into the mouth
+                                </h3>
+                                <h4 data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1000"
+                                    class="subtitle animated fadeInUp">Let Enjoy The Rhym Of Fooday Dishes
+                                </h4>
+                            </div>
+                            <div data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1200"
+                                class="btn-wrap text-left animated fadeInUp"><a href=""
+                                    class="btn swin-btn btn-transparent"> <span>Order Now</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bg"><img src="{% static 'fooding/assets/images/slider/shop-slider.jpg' %}" alt=""
+                    class="img img-responsive">
+            </div>
+        </div>
+        <div class="slides">
+            <div class="slide-content slide-layout-01">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="swin-sc swin-sc-title text-left">
+                                <h3 data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="500"
+                                    class="title animated fadeInUp">Where food speaks with your palate</h3>
+                                <h4 data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1000"
+                                    class="subtitle animated fadeInUp">We speak the good food language</h4>
+                            </div>
+                            <div data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1200"
+                                class="btn-wrap text-left animated fadeInUp"><a href="javascript:void(0)"
+                                    class="btn swin-btn btn-transparent"> <span>Order Now</span></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-bg"><img src="{% static 'fooding/assets/images/slider/shop-slider2.jpg' %}" alt=""
+                    class="img img-responsive">
+            </div>
+        </div>
+    </div>
+    <div class="page-content-wrapper">
+        <div class="page-content no-padding">
+            <section class="product-sesction-02 padding-top-120 padding-bottom-100">
+                <div class="container">
+                    <div class="swin-sc swin-sc-title">
+                        <p class="top-title"><span>Popular Restaurants</span></p>
+                        <h3 class="title">Tasty And Good Price</h3>
+                    </div>
+                    <div class="swin-sc swin-sc-product products-02">
+                        <div class="products nav-slider">
+                            <div class="row">
+                                {% for i in restaurants %}
+                                    {% if i.user.userdetail.is_seller %}
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <a href="{% url 'menuPage' i.id %}">
+                                                <div class="blog-item item swin-transition">
+                                                    <div class="block-img"><img
+                                                            src="{{i.image.url}}" alt="Restaurant Image"
+                                                            class="img img-responsive">
+                                                        <div class="block-circle price-wrapper"><span
+                                                                class="price woocommerce-Price-amount amount"><span
+                                                                    class="price-symbol"></span>TOP</span></div>
+                                                    </div>
+                                                    <div class="block-content">
+                                                        <h5 class="title"><a href="{% url 'menuPage' i.id %}">{{i.name}}</a></h5>
+                                                        <div class="product-info">
+                                                            <ul class="list-inline">
+                                                                <li class="author"><span>Check {{i.name}}'s</span><span class="text">Menu</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>   
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="padding-top-120 padding-bottom-100">
+                <div class="container">
+                    <div class="swin-sc swin-sc-title">
+                        <p class="top-title"><span>Poular Homechefs</span></p>
+                        <h3 class="title">Freshly Made in Home</h3>
+                    </div>
+                    <div class="swin-sc swin-sc-product products-02">
+                        <div class="products nav-slider">
+                            <div class="row">
+                                {% for i in homechefs %}
+                                    {% if i.user.userdetail.is_seller %}
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <a href="{% url 'menuPage' i.id %}">
+                                                <div class="blog-item item swin-transition">
+                                                    <div class="block-img"><img
+                                                            src="{{i.image.url}}" alt="Restaurant Image"
+                                                            class="img img-responsive">
+                                                        <div class="block-circle price-wrapper"><span
+                                                                class="price woocommerce-Price-amount amount"><span
+                                                                    class="price-symbol"></span>TOP</span></div>
+                                                    </div>
+                                                    <div class="block-content">
+                                                        <h5 class="title"><a href="{% url 'menuPage' i.id %}">{{i.name}}</a></h5>
+                                                        <div class="product-info">
+                                                            <ul class="list-inline">
+                                                                <li class="author"><span>Check {{i.name}}'s</span><span class="text">Menu</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>    
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,71 @@
+{% extends 'dashboard/base.html' %} 
+
+
+{% block custompageCss %}
+<style>
+    #user__info input{
+        width: 20rem;
+    }
+</style>
+{% endblock custompageCss %}
+{% block main %}
+<main class="main users chart-page" id="skip-target">
+    <div class="container">
+        <h2 class="main-title">Profile</h2>
+        <div class="mb-3">
+            <article class="stat-cards-item">
+                
+                <div class="stat-cards-info m-auto">
+                    <form id="user__info" action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="uid" value="{{request.user.id}}">
+                        <p class="stat-cards-info__num">{{request.user}}</p>
+                        <p class="stat-cards-info__title">Email</p>
+                        <input type="text" value="{{request.user.email}}" name="email" placeholder="Email"  required>
+                        <p class="stat-cards-info__title">First Name</p>
+                        <input type="text" value="{{request.user.first_name}}" name="first_name" placeholder="First Name">
+                        <p class="stat-cards-info__title">Last Name</p>
+                        <input type="text" value="{{request.user.last_name}}" name="last_name" placeholder="Last Name">
+                        <p class="stat-cards-info__title">Contact Number</p>
+                        <input type="text" value="{{request.user.userdetail.contact_no}}" name="contact_no" placeholder="Contact Number">
+                        <p class="stat-cards-info__title">Address</p>
+                        <input type="text" value="{{request.user.userdetail.address}}" name="address" placeholder="Address">
+                        <p class="stat-cards-info__title">Gender</p>
+                        <select name="gender" class="form-select">
+                            <option {% if request.user.userdetail.gender == 'Male' %}selected{% endif %}  value="Male">Male</option>
+                            <option {% if request.user.userdetail.gender == 'Female' %}selected{% endif %} value="Female">Female</option>
+                            <option {% if request.user.userdetail.gender == '3rd Gender' %}selected{% endif %} value="3rd Gender">3rd Gender</option>
+                        </select>
+                        <p class="stat-cards-info__title">Date Of Birth</p>
+                        <input type="date" name="dob" value="{{request.user.userdetail.dob}}">
+                        <br><br>
+                        <button type="submit" name="btnform1" class="form-btn primary-default-btn transparent-btn">Save Chnage</button>
+                    </form>
+                    
+                </div>
+            </article>
+        </div>
+        <div class="mb-3">
+            <article class="stat-cards-item">
+                
+                <div class="stat-cards-info m-auto">
+                    <form id="user__info" action="" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="uid" value="{{request.user.id}}">
+                        <p class="stat-cards-info__num">Change Password</p>
+                        <p class="stat-cards-info__title">Current Password</p>
+                        <input type="password" name="old_password" placeholder="Current Password"  required>
+                        <p class="stat-cards-info__title">New Password</p>
+                        <input type="password" name="new_password1" placeholder="New Password"  required>
+                        <p class="stat-cards-info__title">Confirm New Password</p>
+                        <input type="password" name="new_password2" placeholder="New Password"  required>
+                        <br><br>
+                        <button type="submit" name="btnform2" class="form-btn primary-default-btn transparent-btn">Save Chnage</button>
+                    </form>
+                    
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+{% endblock main %}

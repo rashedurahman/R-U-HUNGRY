@@ -1,0 +1,38 @@
+{% extends 'dashboard/base.html' %}
+
+{% block main %}
+<main class="main users chart-page" id="skip-target">
+    <div class="container">
+        <h2 class="main-title">Apply For Seller </h2>
+        <article>
+                {% if not request.user.userdetail.has_applied %}
+                <form class="sign-up-form form" action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                  <input type="hidden" name="user" value="{{request.user.id}}">
+                  <label class="form-label-wrapper">
+                    <p class="form-label">Restuernt Name</p>
+                    <input class="form-input" type="text" placeholder="Enter Restuernt Name" name="name" required>
+                  </label>
+                  <label class="form-label-wrapper">
+                    <p class="form-label">Restuernt Type</p>
+                    <select class="form-select" name="type">
+                        <option selected value="restaurant">Restaurant</option>
+                        <option value="home">Home</option>
+                    </select>
+                  </label>
+                  <label class="form-label-wrapper">
+                      <p class="form-label">Image</p>
+                      <input class="form-input" type="file" name="image" id="id_image">
+                  </label>
+                  <button type="submit" class="form-btn primary-default-btn transparent-btn">Apply</button>
+                </form>
+                {% else %}
+                <div class="alert alert-info" role="alert">
+                    Request Pending!
+                  </div>
+                {% endif %}
+            
+          </article>
+    </div>
+</main>
+{% endblock main %}
